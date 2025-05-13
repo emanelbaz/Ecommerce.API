@@ -1,4 +1,4 @@
-using Ecommerce.API.Data;
+using Ecommerce.EF;
 
 var builder = WebApplication.CreateBuilder(args);
 
