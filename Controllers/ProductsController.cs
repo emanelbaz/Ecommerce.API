@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ecommerce.Core.Models;
+using Ecommerce.EF.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.API.Controllers
 {
@@ -6,14 +9,19 @@ namespace Ecommerce.API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
+        private readonly Context _context;
+        public ProductsController(Context context) {
+            _context = context;
+        }
         [HttpGet]
-        public string getProducts()
+        public async Task<ActionResult<List<Product>>> getProducts()
         {
-            return "this will be list of products";
+            var products= await _context.Products.ToListAsync();
+            return Ok(products);
         }
         [HttpGet("{id}")]
-        public string getProduct(int id) {
-            return "single product";
+        public async Task<ActionResult<Product>> getProduct(int id) {
+            return await _context.Products.FindAsync(id);
         }
 
     }
